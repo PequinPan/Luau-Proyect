@@ -1,0 +1,35 @@
+-- LevelDisplay.client.lua
+-- Muestra el nivel del jugador en pantalla
+-- Diseñado para ser simple, claro y reutilizable
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local leaderstats = player:WaitForChild("leaderstats")
+local levelValue = leaderstats:WaitForChild("Nivel")
+
+-- GUI
+local gui = Instance.new("ScreenGui")
+gui.Name = "LevelDisplay"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local label = Instance.new("TextLabel")
+label.Size = UDim2.fromOffset(200, 45)
+label.Position = UDim2.fromOffset(20, 20)
+label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+label.BackgroundTransparency = 0.1
+label.TextColor3 = Color3.fromRGB(255, 255, 255)
+label.Font = Enum.Font.GothamSemibold
+label.TextScaled = true
+label.Text = "Nivel: " .. levelValue.Value
+label.Parent = gui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 10)
+corner.Parent = label
+
+-- Actualización en tiempo real
+levelValue.Changed:Connect(function(value)
+	label.Text = "Nivel: " .. value
+end)
